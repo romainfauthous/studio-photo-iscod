@@ -10,6 +10,8 @@ import ArticleForm from "./pages/ArticleForm";
 import Decors from "./pages/Decors";
 import DecorForm from "./pages/DecorForm";
 import Planning from "./pages/Planning";
+import EventForm from "./pages/EventForm";
+
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -31,6 +33,8 @@ function App() {
       <Route path="/decors/new" element={<ProtectedRoute><DecorForm /></ProtectedRoute>} />
       <Route path="/decors/:id/edit" element={<ProtectedRoute><DecorForm /></ProtectedRoute>} />
       <Route path="/planning" element={<ProtectedRoute><Planning /></ProtectedRoute>} />
+      <Route path="/events/new" element={<ProtectedRoute><EventForm /></ProtectedRoute>} />
+      <Route path="/events/:id/edit" element={<ProtectedRoute><EventForm /></ProtectedRoute>} />
     </Routes>
   );
 }

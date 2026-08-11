@@ -11,6 +11,20 @@ const REQUIRED_ROLES = {
   shooting_decor: ["decorateur", "assistant_decorateur", "photographe", "assistant_photographe", "chauffeur_assistant"],
   retrait_decor: ["assistant_decorateur", "chauffeur_assistant"],
 };
+const ROLE_LABELS = {
+  photographe: "Photographe",
+  assistant_photographe: "Assistant photographe",
+  decorateur: "Décorateur",
+  assistant_decorateur: "Assistant décorateur",
+  chauffeur_assistant: "Chauffeur assistant",
+};
+
+const TYPE_LABELS = {
+  shooting_studio: "Shooting studio",
+  shooting_decor: "Shooting décor",
+  prepa_decor: "Prépa décor",
+  retrait_decor: "Retrait décor",
+};
 
 // Petit utilitaire : la date reçue est-elle une vraie date ?
 function isValidDate(value) {
@@ -84,8 +98,9 @@ async function createEvent(req, res) {
     const requiredRoles = REQUIRED_ROLES[type];
     const missingRoles = requiredRoles.filter((role) => !presentRoles.includes(role));
     if (missingRoles.length > 0) {
+      const missingLabels = missingRoles.map((r) => ROLE_LABELS[r] || r);
       return res.status(400).json({
-        message: `Composition incomplète pour un ${type}. Rôles manquants : ${missingRoles.join(", ")}.`,
+        message: `Composition incomplète pour un ${TYPE_LABELS[type]}. Rôles manquants : ${missingLabels.join(", ")}.`,
       });
     }
 
@@ -195,8 +210,9 @@ async function updateEvent(req, res) {
     const requiredRoles = REQUIRED_ROLES[type];
     const missingRoles = requiredRoles.filter((role) => !presentRoles.includes(role));
     if (missingRoles.length > 0) {
+      const missingLabels = missingRoles.map((r) => ROLE_LABELS[r] || r);
       return res.status(400).json({
-        message: `Composition incomplète pour un ${type}. Rôles manquants : ${missingRoles.join(", ")}.`,
+        message: `Composition incomplète pour un ${TYPE_LABELS[type]}. Rôles manquants : ${missingLabels.join(", ")}.`,
       });
     }
 

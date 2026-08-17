@@ -55,7 +55,8 @@ function Planning() {
 
     // Fonction utilitaire pour convertir ISO → format MySQL
     function toMySQLDate(isoString) {
-        return isoString.replace("T", " ").replace("Z", "").split(".")[0];
+      // Retire le Z et les millisecondes, remplace T par espace
+      return isoString.replace("T", " ").replace("Z", "").split(".")[0];
     }
 
     async function handleEventDrop(info) {

@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userModel = require("./../models/userModel");
+const Log = require("./../models/logModel");
 
 async function login(req, res) {
   try {
@@ -14,6 +15,13 @@ async function login(req, res) {
     // 2. Chercher l'utilisateur en base
     const user = await userModel.findByEmail(email);
     if (!user) {
+      // Log d'échec
+      await Log.create({ 
+        action: "LOGIN_FAILED",
+        email,
+        user_id: null,
+        role: null
+      });
       // Message volontairement vague (on ne dit pas si c'est l'email ou le mdp qui est faux)
       return res.status(401).json({ message: "Identifiants incorrects." });
     }
@@ -21,6 +29,12 @@ async function login(req, res) {
     // 3. Comparer le mot de passe fourni avec le hash stocké
     const motDePasseValide = await bcrypt.compare(password, user.password);
     if (!motDePasseValide) {
+      await Log.create({ 
+        action: "LOGIN_FAILED",
+        email,
+        user_id: null,
+        role: null
+      });
       return res.status(401).json({ message: "Identifiants incorrects." });
     }
 
@@ -31,7 +45,14 @@ async function login(req, res) {
       { expiresIn: "8h" }
     );
 
-    // 5. Renvoyer le token + infos non sensibles (jamais le mot de passe !)
+    // 5. Log réussi + Renvoyer le token + infos non sensibles
+    await Log.create({ 
+      action: "LOGIN_SUCCESS",
+      email,
+      user_id: user.user_id,
+      role: user.role
+    });
+
     res.json({
       token,
       user: {

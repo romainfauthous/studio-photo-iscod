@@ -197,7 +197,7 @@ async function updateEvent(req, res) {
     if (!Array.isArray(user_ids) || user_ids.length === 0) {
       return res.status(400).json({ message: "Un événement doit mobiliser au moins un prestataire." });
     }
-    // 7. Les prestataires existent + collecte des rôles
+    // 7. Les prestataires présents + collecte des rôles
     const presentRoles = [];
     for (const userId of user_ids) {
       const user = await userModel.findById(userId);

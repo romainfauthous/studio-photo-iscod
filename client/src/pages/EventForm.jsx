@@ -49,6 +49,18 @@ function EventForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Convertit une date ISO en format datetime-local (input HTML)
+  function toDatetimeLocal(isoString) {
+  // Prend la date telle quelle depuis la BDD, retire juste le .000Z
+    return isoString.slice(0, 16).replace("T", "T");
+  }
+
+  // Convertit datetime-local en format MySQL
+  function toMySQLDate(datetimeLocal) {
+    // Envoie au back exactement ce que l'utilisateur a saisi
+    return datetimeLocal.replace("T", " ") + ":00";
+  }
+
   // Charger les données de référence
   useEffect(() => {
     async function loadData() {
@@ -92,16 +104,6 @@ function EventForm() {
     }
     loadEvent();
   }, [id, isEditMode]);
-
-  // Convertit une date ISO en format datetime-local (input HTML)
-  function toDatetimeLocal(isoString) {
-    return new Date(isoString).toISOString().slice(0, 16);
-  }
-
-  // Convertit datetime-local en format MySQL
-  function toMySQLDate(datetimeLocal) {
-    return datetimeLocal.replace("T", " ") + ":00";
-  }
 
   // Toggle prestataire
   function toggleUser(userId) {

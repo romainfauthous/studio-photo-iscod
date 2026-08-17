@@ -9,11 +9,26 @@ async function findAll() {
 
 async function findById(id) {
   const [rows] = await db.query(
-    "SELECT event_id, start_date, end_date, type, place_id FROM `event` WHERE event_id = ?",
+    `SELECT e.event_id, e.start_date, e.end_date, e.type,
+            p.place_id, p.name AS place_name, p.adress, p.type AS place_type
+    FROM \`event\` e
+    JOIN place p ON p.place_id = e.place_id
+    WHERE e.event_id = ?`,
     [id]
   );
   const event = rows[0];
   if (!event) return undefined;
+  
+  event.place = {
+    place_id: event.place_id,
+    name: event.place_name,
+    adress: event.adress,
+    type: event.place_type,
+  };
+
+  delete event.place_name;
+  delete event.adress;
+  delete event.place_type;
 
   // Prestataires
   const [users] = await db.query(

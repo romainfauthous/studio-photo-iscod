@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const db = require("./config/db"); // <-- on importe la connexion
+const { connectMongoDB } = require("./config/mongodb");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -42,4 +43,5 @@ async function testDbConnection() {
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
   testDbConnection();
+  connectMongoDB();
 });

@@ -37,6 +37,12 @@ function Layout({ children }) {
             <Link to="/planning" className="text-sm text-gray-600 hover:text-blue-600 px-2 py-1">
               Planning
             </Link>
+            <Link to="/validations" className="text-sm text-gray-600 hover:text-blue-600 px-2 py-1">
+              Validations
+            </Link>
+            <Link to="/history" className="text-sm text-gray-600 hover:text-blue-600 px-2 py-1">
+              Historiques
+            </Link>
           </div>
 
           {/* Utilisateur + déconnexion */}

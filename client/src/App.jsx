@@ -11,6 +11,8 @@ import Decors from "./pages/Decors";
 import DecorForm from "./pages/DecorForm";
 import Planning from "./pages/Planning";
 import EventForm from "./pages/EventForm";
+import Validations from "./pages/Validations";
+import History from "./pages/History";
 
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -35,6 +37,8 @@ function App() {
       <Route path="/planning" element={<ProtectedRoute><Planning /></ProtectedRoute>} />
       <Route path="/events/new" element={<ProtectedRoute><EventForm /></ProtectedRoute>} />
       <Route path="/events/:id/edit" element={<ProtectedRoute><EventForm /></ProtectedRoute>} />
+      <Route path="/validations" element={<ProtectedRoute><Validations /></ProtectedRoute>} />
+      <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
     </Routes>
   );
 }

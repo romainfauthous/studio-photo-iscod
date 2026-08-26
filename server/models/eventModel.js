@@ -42,20 +42,22 @@ async function findById(id) {
 
   // Articles (présents seulement pour un shooting_studio)
   const [articles] = await db.query(
-    `SELECT a.article_id, a.reference, a.name, a.statut
-     FROM article a
-     JOIN event_article ea ON ea.article_id = a.article_id
-     WHERE ea.event_id = ?`,
+    `SELECT a.article_id, a.reference, a.name, a.statut,
+            ea.picture_validated
+    FROM article a
+    JOIN event_article ea ON ea.article_id = a.article_id
+    WHERE ea.event_id = ?`,
     [id]
   );
   event.articles = articles;
 
   // Décors (présents seulement pour un shooting_decor)
   const [decors] = await db.query(
-    `SELECT d.decor_id, d.name, d.description
-     FROM decor d
-     JOIN event_decor ed ON ed.decor_id = d.decor_id
-     WHERE ed.event_id = ?`,
+    `SELECT d.decor_id, d.name, d.description,
+            ed.picture_validated, ed.install_validated, ed.uninstall_validated
+    FROM decor d
+    JOIN event_decor ed ON ed.decor_id = d.decor_id
+    WHERE ed.event_id = ?`,
     [id]
   );
   event.decors = decors;
